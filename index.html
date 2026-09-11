@@ -58,6 +58,7 @@
 
         ::-webkit-scrollbar {
             width: 8px;
+            height: 8px;
         }
         ::-webkit-scrollbar-track {
             background: var(--bg-base);
@@ -74,28 +75,30 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            background: rgba(17, 24, 39, 0.85);
+            background: rgba(17, 24, 39, 0.92);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
             padding: 1rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 15px;
         }
 
         .brand-logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             font-weight: 800;
-            font-size: 1.35rem;
+            font-size: 1.25rem;
             color: var(--text-main);
             text-decoration: none;
+            white-space: nowrap;
         }
 
         .brand-logo i {
             color: var(--primary);
-            font-size: 1.5rem;
+            font-size: 1.4rem;
         }
 
         .brand-logo span {
@@ -106,6 +109,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            flex-wrap: wrap;
         }
 
         /* Mode View Switcher Button */
@@ -121,8 +125,8 @@
             background: transparent;
             border: none;
             color: var(--text-muted);
-            padding: 6px 16px;
-            font-size: 0.85rem;
+            padding: 6px 14px;
+            font-size: 0.82rem;
             font-weight: 600;
             border-radius: 6px;
             cursor: pointer;
@@ -130,6 +134,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            white-space: nowrap;
         }
 
         .view-switch-btn.active {
@@ -141,15 +146,17 @@
         .btn {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
-            padding: 0.65rem 1.3rem;
+            padding: 0.65rem 1.2rem;
             border-radius: var(--radius-sm);
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             cursor: pointer;
             border: none;
             transition: var(--transition);
             text-decoration: none;
+            white-space: nowrap;
         }
 
         .btn-primary {
@@ -203,16 +210,16 @@
            3. HERO & SEARCH SECTION
            ========================================== */
         .hero-section {
-            padding: 3.5rem 5% 2.5rem 5%;
+            padding: 3rem 5% 2rem 5%;
             text-align: center;
             position: relative;
             background: radial-gradient(circle at 50% 0%, rgba(249, 115, 22, 0.08) 0%, rgba(11, 15, 23, 0) 70%);
         }
 
         .hero-title {
-            font-size: 2.6rem;
+            font-size: 2.2rem;
             font-weight: 800;
-            line-height: 1.2;
+            line-height: 1.25;
             margin-bottom: 0.8rem;
         }
 
@@ -223,8 +230,8 @@
         .hero-subtitle {
             color: var(--text-muted);
             max-width: 600px;
-            margin: 0 auto 2rem auto;
-            font-size: 1rem;
+            margin: 0 auto 1.8rem auto;
+            font-size: 0.95rem;
         }
 
         .search-container {
@@ -240,17 +247,17 @@
         }
 
         .search-input-wrap {
-            flex: 1 1 300px;
+            flex: 1 1 260px;
             display: flex;
             align-items: center;
             background: var(--bg-card);
             border-radius: var(--radius-md);
-            padding: 0 16px;
+            padding: 0 14px;
         }
 
         .search-input-wrap i {
             color: var(--text-muted);
-            margin-right: 12px;
+            margin-right: 10px;
         }
 
         .search-input-wrap input {
@@ -260,7 +267,7 @@
             outline: none;
             color: var(--text-main);
             padding: 12px 0;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
         .filter-select {
@@ -268,10 +275,11 @@
             color: var(--text-main);
             border: none;
             outline: none;
-            padding: 0 16px;
+            padding: 12px 16px;
             border-radius: var(--radius-md);
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             cursor: pointer;
+            flex: 1 1 180px;
         }
 
         /* ==========================================
@@ -279,7 +287,7 @@
            ========================================== */
         .content-section {
             max-width: 1200px;
-            margin: 2rem auto;
+            margin: 1.5rem auto;
             padding: 0 5%;
         }
 
@@ -289,7 +297,7 @@
             align-items: center;
             margin-bottom: 20px;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 12px;
         }
 
         .tab-group {
@@ -298,18 +306,21 @@
             padding: 4px;
             border-radius: var(--radius-md);
             border: 1px solid var(--border-color);
+            overflow-x: auto;
+            max-width: 100%;
         }
 
         .tab-btn {
-            padding: 8px 18px;
+            padding: 8px 16px;
             border-radius: var(--radius-sm);
             border: none;
             background: transparent;
             color: var(--text-muted);
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             cursor: pointer;
             transition: var(--transition);
+            white-space: nowrap;
         }
 
         .tab-btn.active {
@@ -319,7 +330,7 @@
 
         .items-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 20px;
         }
 
@@ -359,6 +370,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             display: inline-block;
+            white-space: nowrap;
         }
 
         .status-badge.type-lost {
@@ -403,7 +415,7 @@
         }
 
         .card-title {
-            font-size: 1.05rem;
+            font-size: 1.02rem;
             font-weight: 700;
             margin: 4px 0 8px 0;
         }
@@ -424,7 +436,7 @@
             padding-top: 10px;
             display: flex;
             justify-content: space-between;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--text-muted);
         }
 
@@ -434,19 +446,21 @@
         .admin-dashboard {
             display: none; /* Toggled via JS */
             max-width: 1200px;
-            margin: 2rem auto;
+            margin: 1.5rem auto;
             padding: 0 5%;
         }
 
         .admin-title-bar {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .admin-title-bar h2 {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 800;
         }
 
@@ -455,14 +469,14 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 16px;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
 
         .metric-card {
             background: var(--bg-surface);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
-            padding: 20px;
+            padding: 18px;
             display: flex;
             align-items: center;
             gap: 16px;
@@ -485,14 +499,15 @@
         .metric-card.match::before { background: var(--primary); }
 
         .metric-icon {
-            width: 48px;
-            height: 48px;
+            width: 46px;
+            height: 46px;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             background: var(--bg-card);
+            flex-shrink: 0;
         }
 
         .metric-card.total .metric-icon { color: var(--accent-blue); }
@@ -501,7 +516,7 @@
         .metric-card.match .metric-icon { color: var(--primary); }
 
         .metric-data h4 {
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -509,7 +524,7 @@
         }
 
         .metric-data .metric-value {
-            font-size: 1.7rem;
+            font-size: 1.6rem;
             font-weight: 800;
             margin-top: 2px;
             line-height: 1;
@@ -525,17 +540,20 @@
         }
 
         .table-header-title {
-            padding: 16px 20px;
+            padding: 14px 18px;
             border-bottom: 1px solid var(--border-color);
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
         }
 
         .table-responsive {
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .admin-table {
@@ -543,11 +561,12 @@
             border-collapse: collapse;
             text-align: left;
             font-size: 0.88rem;
+            min-width: 600px; /* Ensures table layout remains readable on small screens */
         }
 
         .admin-table th, 
         .admin-table td {
-            padding: 14px 18px;
+            padding: 12px 16px;
             border-bottom: 1px solid var(--border-color);
             vertical-align: middle;
         }
@@ -559,6 +578,7 @@
             text-transform: uppercase;
             font-size: 0.72rem;
             letter-spacing: 0.5px;
+            white-space: nowrap;
         }
 
         .admin-table tbody tr:hover {
@@ -573,16 +593,18 @@
         }
 
         .item-thumb {
-            width: 42px;
-            height: 42px;
+            width: 40px;
+            height: 40px;
             border-radius: 6px;
             object-fit: cover;
             background: var(--bg-card);
+            flex-shrink: 0;
         }
 
         .action-cell {
             display: flex;
             gap: 8px;
+            white-space: nowrap;
         }
 
         /* ==========================================
@@ -603,7 +625,7 @@
             opacity: 0;
             pointer-events: none;
             transition: var(--transition);
-            padding: 20px;
+            padding: 16px;
         }
 
         .modal-overlay.active {
@@ -617,14 +639,16 @@
             border-radius: var(--radius-lg);
             width: 100%;
             max-width: 500px;
-            padding: 24px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 20px;
             position: relative;
         }
 
         .modal-close {
             position: absolute;
-            top: 18px;
-            right: 18px;
+            top: 16px;
+            right: 16px;
             background: var(--bg-card);
             border: none;
             color: var(--text-muted);
@@ -683,37 +707,17 @@
             transform: translateY(100px);
             opacity: 0;
             transition: var(--transition);
+            max-width: calc(100vw - 40px);
         }
 
         .toast.show {
             transform: translateY(0);
             opacity: 1;
         }
-    </style>
-</head>
-<body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <a href="#" class="brand-logo">
-            <i class="fa-solid fa-compass"></i>
-            <span>Smart</span> Lost & Found
-        </a>
-        <div class="nav-actions">
-            <!-- Navigation Switcher -->
-            <div class="view-switch">
-                <button class="view-switch-btn active" id="viewUserBtn"><i class="fa-solid fa-grid-2"></i> Catalog</button>
-                <button class="view-switch-btn" id="viewAdminBtn"><i class="fa-solid fa-user-shield"></i> Admin Panel</button>
-            </div>
-
-            <button class="btn btn-primary" id="openReportBtn">
-                <i class="fa-solid fa-plus"></i> Report Item
-            </button>
-        </div>
-    </nav>
-
-    <!-- PUBLIC USER VIEW -->
-    <div id="publicView">
-        <section class="hero-section">
-            <h1 class="hero-title">Lost Something on Campus? <br><span>We'll Help You Find It.</span></h1>
-            <p class="hero-subtitle">Smart AI-powered match tracing for college IDs, ele
+        /* ==========================================
+           7. RESPONSIVE MEDIA QUERIES
+           ========================================== */
+        @media screen and (max-width: 768px) {
+            .navbar {
+   
