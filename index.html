@@ -1,148 +1,894 @@
 <!DOCTYPE html>
-<html lang="en">
+<lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- FIX 1: Prevent automatic gesture zoom/pinching -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Mobile Responsive Template</title>
-  
+  <title>Zaid Attar's Lost & Found - College Portal</title>
   <style>
-    /* FIX 2: Universal Box Sizing */
+    :root {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-card: #ffffff;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --border-color: #e2e8f0;
+      --accent-color: #2563eb;
+      --accent-hover: #1d4ed8;
+      --badge-lost: #ef4444;
+      --badge-found: #10b981;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-card: #1e293b;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --border-color: #334155;
+      --accent-color: #3b82f6;
+      --accent-hover: #60a5fa;
+      --badge-lost: #f87171;
+      --badge-found: #34d399;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.5);
+    }
+
     *, *::before, *::after {
       box-sizing: border-box !important;
       margin: 0;
       padding: 0;
     }
 
-    /* FIX 3: Strict Body & HTML Overflow Constraints */
     html, body {
       width: 100%;
       max-width: 100%;
       overflow-x: hidden !important;
-      position: relative;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
     }
 
-    /* FIX 4: Word Wrapping & Unbreakable Text Fix */
-    /* Prevents long URLs, continuous strings, or titles from forcing the screen width out */
     body, p, h1, h2, h3, h4, h5, h6, span, a, div, td, th {
       overflow-wrap: break-word;
       word-wrap: break-word;
       word-break: break-word;
     }
 
-    /* FIX 5: Prevent Fixed-Width Overflows for Media & Containers */
-    img, video, canvas, svg, iframe, embed, object {
+    img, video, canvas, svg, iframe {
       max-width: 100% !important;
       height: auto;
     }
 
-    /* FIX 6: Ensure all Containers/Flex/Grid items stay within screen bounds */
     div, section, main, article, header, footer, nav, table {
       max-width: 100% !important;
     }
 
-    /* FIX 7: Disable Mobile iOS/Android Input Auto-Zoom (16px rule) */
-    input[type="text"],
-    input[type="search"],
-    input[type="email"],
-    input[type="password"],
-    input[type="number"],
-    input[type="tel"],
-    input[type="url"],
-    textarea,
-    select {
-      font-size: 16px !important; /* Minimum 16px to stop iOS Safari zoom */
+    input, select, textarea, button {
+      font-size: 16px !important;
       max-width: 100% !important;
       -webkit-text-size-adjust: 100%;
     }
 
-    /* OPTIONAL: Basic layout styling for scannability */
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.6;
-      padding: 16px;
-      color: #333;
+    /* Header & Navigation */
+    header {
+      background-color: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-    .wrapper {
-      width: 100%;
-      max-width: 800px;
+    .nav-container {
+      max-width: 1200px;
       margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .form-group {
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+
+    .brand-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--text-secondary);
+      display: block;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-color);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent-hover);
+    }
+
+    .btn-outline {
+      border-color: var(--border-color);
+      background-color: transparent;
+      color: var(--text-primary);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--border-color);
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Menu Dropdown */
+    .menu-container {
+      position: relative;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 110%;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      width: 180px;
+      z-index: 200;
+    }
+
+    .dropdown-menu.active {
+      display: block;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 10px 16px;
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .dropdown-menu a:hover {
+      background-color: var(--border-color);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 32px 16px;
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .hero p {
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .search-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      max-width: 700px;
+      margin: 0 auto 16px auto;
+    }
+
+    .search-box input, .search-box select {
+      flex: 1 1 200px;
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    /* Tabs */
+    .tabs-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      background-color: var(--bg-secondary);
+      padding: 4px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .tab-btn {
+      padding: 8px 16px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      background-color: var(--accent-color);
+      color: #ffffff;
+    }
+
+    /* Card Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-img-wrap {
+      position: relative;
+      height: 180px;
+      background-color: var(--border-color);
+    }
+
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+
+    .badge-lost { background-color: var(--badge-lost); }
+    .badge-found { background-color: var(--badge-found); }
+
+    .ai-score {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(15, 23, 42, 0.85);
+      color: #38bdf8;
+      border: 1px solid #0284c7;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .card-body {
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      flex: 1;
+    }
+
+    .card-meta {
+      font-size: 12px;
+      color: var(--text-secondary);
       margin-bottom: 16px;
     }
 
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-
-    input, textarea {
+    /* Modals */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
+      height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: var(--shadow);
+      padding: 24px;
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .modal-header h2 {
+      font-size: 20px;
+    }
+
+    .close-modal {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--text-secondary);
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    /* Admin Dashboard */
+    .admin-section {
+      display: none;
+      margin-top: 24px;
+    }
+
+    .admin-section.active {
+      display: block;
+    }
+
+    .admin-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 16px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .stat-card h4 {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .stat-card p {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--accent-color);
+    }
+
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border-color);
       border-radius: 8px;
     }
 
-    button {
-      padding: 12px 20px;
-      font-size: 16px;
-      background-color: #0066cc;
-      color: #ffffff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    th {
+      background-color: var(--bg-secondary);
+      color: var(--text-secondary);
     }
   </style>
 </head>
 <body>
 
-  <div class="wrapper">
-    <header>
-      <h1>Fully Mobile Responsive Template</h1>
-    </header>
-
-    <main>
-      <section class="form-section">
-        <div class="form-group">
-          <label for="search">Search</label>
-          <input type="search" id="search" placeholder="Type here without mobile auto-zoom...">
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <a href="#" class="brand">
+        <div class="logo">ZA</div>
+        <div>
+          <span class="brand-title">Zaid Attar's</span>
+          <span class="brand-subtitle">Lost & Found Portal</span>
         </div>
+      </a>
 
-        <div class="form-group">
-          <label for="email">Login Email</label>
-          <input type="email" id="email" placeholder="example@domain.com">
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" title="Toggle Day/Night">🌙</button>
+        <button class="btn btn-outline" onclick="openModal('signInModal')">Sign In</button>
+        <button class="btn btn-primary" onclick="openModal('signUpModal')">Sign Up</button>
+        
+        <div class="menu-container">
+          <button class="icon-btn" onclick="toggleMenu()">⋮</button>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="#" onclick="alert('Zaid Attars Lost & Found Portal for College Campus.')">About</a>
+            <a href="#" onclick="alert('Contact Support: admin@college.edu')">Contact</a>
+            <a href="#" onclick="showAdminSection()">Admin Dashboard</a>
+          </div>
         </div>
+      </div>
+    </div>
+  </header>
 
-        <div class="form-group">
-          <label for="report">Report Issue</label>
-          <textarea id="report" rows="4" placeholder="Describe any issue..."></textarea>
+  <!-- Main Content -->
+  <main class="container">
+    
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1>Lost Something? We'll Help You Find It.</h1>
+      <p>Official campus portal to report lost items or return found belongings.</p>
+      
+      <div class="search-box">
+        <input type="search" id="searchInput" placeholder="Search for missing items (e.g., Wallet, ID Card)..." onkeyup="filterItems()">
+        <select id="categoryFilter" onchange="filterItems()">
+          <option value="all">All Categories</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Documents">Documents / Cards</option>
+          <option value="Accessories">Accessories</option>
+          <option value="Books">Books / Stationary</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Tabs & Report Action -->
+    <div class="tabs-container">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('all', this)">All Items</button>
+        <button class="tab-btn" onclick="switchTab('lost', this)">Lost</button>
+        <button class="tab-btn" onclick="switchTab('found', this)">Found</button>
+      </div>
+      <button class="btn btn-primary" onclick="openModal('reportModal')">+ Report New Item</button>
+    </div>
+
+    <!-- Main Grid -->
+    <section class="grid" id="itemsGrid">
+      <!-- Item Card 1 -->
+      <div class="card" data-type="lost" data-category="Electronics">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=500&q=80" alt="Smartwatch">
+          <span class="badge badge-lost">LOST</span>
+          <span class="ai-score">94% AI Match</span>
         </div>
+        <div class="card-body">
+          <h3 class="card-title">Apple Watch Series 7</h3>
+          <p class="card-desc">Black sport band, left near the Library reading room main desk.</p>
+          <div class="card-meta">📍 Library 2nd Floor • 🕒 Yesterday</div>
+          <button class="btn btn-outline" style="width: 100%;" onclick="claimItem('Apple Watch Series 7')">I Found This</button>
+        </div>
+      </div>
 
-        <button type="button" id="submitBtn">Submit</button>
-      </section>
+      <!-- Item Card 2 -->
+      <div class="card" data-type="found" data-category="Documents">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=500&q=80" alt="College ID">
+          <span class="badge badge-found">FOUND</span>
+          <span class="ai-score">88% AI Match</span>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">Student ID Card</h3>
+          <p class="card-desc">Belongs to Computer Dept student. Found near Canteen counter.</p>
+          <div class="card-meta">📍 Campus Canteen • 🕒 Today, 10:30 AM</div>
+          <button class="btn btn-primary" style="width: 100%;" onclick="claimItem('Student ID Card')">This is Mine</button>
+        </div>
+      </div>
 
-      <section style="margin-top: 24px;">
-        <h3>Unbreakable Text Test</h3>
-        <p>https://example.com/very/long/url/path/that/would/normally/cause/horizontal/overflow/on/mobile/screens/if/word-wrap/was/not/applied</p>
-      </section>
-    </main>
+      <!-- Item Card 3 -->
+      <div class="card" data-type="lost" data-category="Accessories">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=500&q=80" alt="Backpack">
+          <span class="badge badge-lost">LOST</span>
+          <span class="ai-score">91% AI Match</span>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">Blue Nike Backpack</h3>
+          <p class="card-desc">Contains engineering notebooks and blue water bottle.</p>
+          <div class="card-meta">📍 Ground / Sports Complex • 🕒 2 days ago</div>
+          <button class="btn btn-outline" style="width: 100%;" onclick="claimItem('Blue Nike Backpack')">I Found This</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Admin Section -->
+    <section class="admin-section" id="adminSection">
+      <h2>Admin Control Dashboard</h2>
+      <br>
+      <div class="admin-stats">
+        <div class="stat-card">
+          <h4>Total Reports</h4>
+          <p>42</p>
+        </div>
+        <div class="stat-card">
+          <h4>Lost Items</h4>
+          <p>24</p>
+        </div>
+        <div class="stat-card">
+          <h4>Found Items</h4>
+          <p>18</p>
+        </div>
+        <div class="stat-card">
+          <h4>Pending Review</h4>
+          <p>5</p>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Item Name</th>
+              <th>Category</th>
+              <th>Reporter</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminTableBody">
+            <tr>
+              <td>Leather Key Ring</td>
+              <td>Accessories</td>
+              <td>roll_2024@college.edu</td>
+              <td>FOUND</td>
+              <td><span style="color: orange; font-weight: bold;">Pending</span></td>
+              <td>
+                <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px;" onclick="approveRow(this)">Approve</button>
+                <button class="btn btn-outline" style="padding: 4px 8px; font-size: 12px; color: red;" onclick="rejectRow(this)">Reject</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Sign In Modal -->
+  <div class="modal-overlay" id="signInModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Sign In to Portal</h2>
+        <button class="close-modal" onclick="closeModal('signInModal')">&times;</button>
+      </div>
+      <form onsubmit="handleAuth(event, 'signInModal')">
+        <div class="form-group">
+          <label for="loginEmail">College Email</label>
+          <input type="email" id="loginEmail" required placeholder="student@college.edu">
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Sign Up Modal -->
+  <div class="modal-overlay" id="signUpModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Create Student Account</h2>
+        <button class="close-modal" onclick="closeModal('signUpModal')">&times;</button>
+      </div>
+      <form onsubmit="handleAuth(event, 'signUpModal')">
+        <div class="form-group">
+          <label for="regEmail">College Email</label>
+          <input type="email" id="regEmail" required placeholder="student@college.edu">
+        </div>
+        <div class="form-group">
+          <label for="rollNo">Roll Number</label>
+          <input type="text" id="rollNo" required placeholder="e.g. 24CS102">
+        </div>
+        <div class="form-group">
+          <label for="regPassword">Password</label>
+          <input type="password" id="regPassword" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Create Account</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Report Item Modal -->
+  <div class="modal-overlay" id="reportModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Report Lost or Found Item</h2>
+        <button class="close-modal" onclick="closeModal('reportModal')">&times;</button>
+      </div>
+      <form onsubmit="handleReport(event)">
+        <div class="form-group">
+          <label for="reportType">Report Type</label>
+          <select id="reportType">
+            <option value="lost">I Lost Something</option>
+            <option value="found">I Found Something</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="reportTitle">Item Name</label>
+          <input type="text" id="reportTitle" required placeholder="e.g., Scientific Calculator">
+        </div>
+        <div class="form-group">
+          <label for="reportCat">Category</label>
+          <select id="reportCat">
+            <option value="Electronics">Electronics</option>
+            <option value="Documents">Documents / Cards</option>
+            <option value="Accessories">Accessories</option>
+            <option value="Books">Books / Stationary</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="reportLoc">Location</label>
+          <input type="text" id="reportLoc" required placeholder="e.g. Lab 3, 1st Floor">
+        </div>
+        <div class="form-group">
+          <label for="reportDesc">Description</label>
+          <textarea id="reportDesc" rows="3" placeholder="Provide details to help identification..."></textarea>
+        </div>
+        <div class="form-group">
+          <label for="reportImg">Upload Image</label>
+          <input type="file" id="reportImg" accept="image/*">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Submit Report</button>
+      </form>
+    </div>
   </div>
 
   <script>
-    // JavaScript stays completely safe and functional inside this tag.
-    document.addEventListener('DOMContentLoaded', () => {
-      const btn = document.getElementById('submitBtn');
-      if (btn) {
-        btn.addEventListener('click', () => {
-          console.log('Form submitted safely without layout shifts.');
-        });
+    // Theme Switcher Logic
+    const themeToggleBtn = document.getElementById('themeToggle');
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      if (currentTheme === 'dark') {
+        document.documentElement.removeAttribute('data-theme');
+        themeToggleBtn.textContent = '🌙';
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        themeToggleBtn.textContent = '☀️';
       }
     });
-  </script>
 
+    // Dropdown Menu
+    function toggleMenu() {
+      const menu = document.getElementById('dropdownMenu');
+      menu.classList.toggle('active');
+    }
+
+    window.addEventListener('click', (e) => {
+      if (!e.target.matches('.icon-btn')) {
+        const menu = document.getElementById('dropdownMenu');
+        if (menu && menu.classList.contains('active')) {
+          menu.classList.remove('active');
+        }
+      }
+    });
+
+    // Modal Control
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    function handleAuth(e, modalId) {
+      e.preventDefault();
+      alert('Authentication successful!');
+      closeModal(modalId);
+    }
+
+    // Filter Logic
+    function filterItems() {
+      const searchValue = document.getElementById('searchInput').value.toLowerCase();
+      const categoryValue = document.getElementById('categoryFilter').value;
+      const cards = document.querySelectorAll('.card');
+
+      cards.forEach(card => {
+        const title = card.querySelector('.card-title').textContent.toLowerCase();
+        const desc = card.querySelector('.card-desc').textContent.toLowerCase();
+        const category = card.getAttribute('data-category');
+
+        const matchesSearch = title.includes(searchValue) || desc.includes(searchValue);
+        const matchesCategory = categoryValue === 'all' || category === categoryValue;
+
+        if (matchesSearch && matchesCategory) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Tab Switching
+    function switchTab(type, btnElement) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btnElement.classList.add('active');
+
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        const cardType = card.getAttribute('data-type');
+        if (type === 'all' || cardType === type) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Item Claim / Report Handler
+    function claimItem(itemName) {
+      alert('Notification sent to the owner/finder of "' + itemName + '". Check your email for updates!');
+    }
+
+    function handleReport(e) {
+      e.preventDefault();
+      const title = document.getElementById('reportTitle').value;
+      const type = document.getElementById('reportType').value;
+      const cat = document.getElementById('reportCat').value;
+      const loc = document.getElementById('reportLoc').value;
+      const desc = document.getElementById('reportDesc').value;
+
+      const grid = document.getElementById('itemsGrid');
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.setAttribute('data-type', type);
+      card.setAttribute('data-category', cat);
+
+      const badgeClass = type === 'lost' ? 'badge-lost' : 'badge-found';
+      const badgeText = type.toUpperCase();
+      const btnText = type === 'lost' ? 'I Found This' : 'This is Mine';
+      const btnClass = type === 'lost' ? 'btn-outline' : 'btn-primary';
+
+      card.innerHTML = `
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=500&q=80" alt="Item">
+          <span class="badge ${badgeClass}">${badgeText}</span>
+          <span class="ai-score">95% AI Match</span>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">${title}</h3>
+          <p class="card-desc">${desc}</p>
+          <div class="card-meta">📍 ${loc} • 🕒 Just Now</div>
+          <button class="btn ${btnClass}" style="width: 100%;" onclick="claimItem('${title}')">${btnText}</button>
+        </div>
+      `;
+
+      grid.prepend(card);
+      closeModal('reportModal');
+      alert('Item reported successfully!');
+    }
+
+    // Admin Panel Controls
+    function showAdminSection() {
+      const section = document.getElementById('adminSection');
+      section.classList.toggle('active');
+      if(section.classList.contains('active')) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function approveRow(btn) {
+      const row = btn.closest('tr');
+      row.cells[4].innerHTML = '<span style="color: green; font-weight: bold;">Approved</span>';
+    }
+
+    function rejectRow(btn) {
+      const row = btn.closest('tr');
+      row.cells[4].innerHTML = '<span style="color: red; font-weight: bold;">Rejected</span>';
+    }
+  </script>
 </body>
 </html>
