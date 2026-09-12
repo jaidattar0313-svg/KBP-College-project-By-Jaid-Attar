@@ -113,6 +113,7 @@
       font-weight: 700;
       font-size: 1.25rem;
       flex-shrink: 0;
+      cursor: pointer;
     }
 
     .logo-box {
@@ -245,7 +246,7 @@
       background-color: var(--border-color);
     }
 
-    /* Mobile Navigation */
+    /* Navigation Controls */
     .mobile-controls {
       display: none;
       align-items: center;
@@ -283,8 +284,8 @@
 
     /* MAIN CONTAINER */
     .main-container {
-      max-width: 100%;
-      width: 1200px;
+      max-width: 1200px;
+      width: 100%;
       margin: 0 auto;
       padding: 2rem 1rem;
       flex: 1;
@@ -570,11 +571,13 @@
       background-color: var(--bg-surface);
       border-radius: 16px;
       width: 100%;
-      max-width: 440px;
+      max-width: 460px;
       padding: 2rem;
       box-shadow: var(--shadow-lg);
       border: 1px solid var(--border-color);
       position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
     .modal-header {
@@ -620,7 +623,7 @@
       margin-bottom: 0.4rem;
     }
 
-    .form-input {
+    .form-input, .form-select, .form-textarea {
       width: 100%;
       padding: 0.75rem 0.9rem;
       border-radius: 8px;
@@ -631,7 +634,12 @@
       outline: none;
     }
 
-    .form-input:focus {
+    .form-textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
       border-color: var(--primary);
     }
 
@@ -682,6 +690,10 @@
         display: flex;
       }
       
+      .hero {
+        padding: 2.5rem 1rem;
+      }
+
       .hero h1 {
         font-size: 1.6rem;
       }
@@ -702,8 +714,8 @@
       }
 
       .mobile-menu-overlay {
-        position: fixed;
-        top: 65px;
+        position: absolute;
+        top: 100%;
         left: 0;
         right: 0;
         background-color: var(--bg-surface);
@@ -715,6 +727,7 @@
         box-shadow: var(--shadow-lg);
         z-index: 49;
       }
+
       .mobile-menu-overlay.active {
         display: flex;
       }
@@ -726,45 +739,45 @@
   <!-- HEADER -->
   <header class="header">
     <div class="nav-container">
-      <a href="#" class="brand-logo" onclick="switchView('student')">
+      <div class="brand-logo" id="brand-logo-btn">
         <div class="logo-box">ZA</div>
         <span>Lost & Found</span>
-      </a>
+      </div>
 
       <!-- Desktop Nav -->
       <div class="desktop-nav">
-        <button class="btn btn-outline" id="btn-login-desktop" onclick="openAuthModal('login')">Sign In</button>
-        <button class="btn btn-primary" id="btn-signup-desktop" onclick="openAuthModal('signup')">Sign Up</button>
-        <button class="icon-btn" id="theme-toggle-desktop" title="Toggle Mode" onclick="toggleTheme()">🌙</button>
+        <button class="btn btn-outline" id="btn-login-desktop">Sign In</button>
+        <button class="btn btn-primary" id="btn-signup-desktop">Sign Up</button>
+        <button class="icon-btn" id="theme-toggle-desktop" title="Toggle Mode">🌙</button>
         
         <div class="dropdown-wrapper">
-          <button class="icon-btn" onclick="toggleDropdown('desktop-dropdown')">⋮</button>
+          <button class="icon-btn" id="desktop-menu-trigger">⋮</button>
           <div class="dropdown-menu" id="desktop-dropdown">
-            <button class="dropdown-item" onclick="alert('Zaid Attar\'s Lost & Found helps campus students quickly report and recover misplaced items using AI-driven matching technology.')">About Us</button>
-            <button class="dropdown-item" onclick="alert('Contact: support@zaidattar.edu\nPhone: +91 98765 43210')">Contact Us</button>
-            <button class="dropdown-item" onclick="alert('Help Guide:\n1. Search or filter lost/found items.\n2. Login to post missing items.\n3. Verify ownership when claiming.')">Help</button>
+            <button class="dropdown-item" id="about-btn-desktop">About Us</button>
+            <button class="dropdown-item" id="contact-btn-desktop">Contact Us</button>
+            <button class="dropdown-item" id="help-btn-desktop">Help</button>
             <hr style="border-color: var(--border-color); margin: 0.25rem 0;">
-            <button class="dropdown-item" style="color: var(--primary); font-weight: 600;" onclick="openAdminAuthModal()">🔒 Admin Login</button>
+            <button class="dropdown-item" id="admin-login-desktop" style="color: var(--primary); font-weight: 600;">🔒 Admin Login</button>
           </div>
         </div>
       </div>
 
       <!-- Mobile Controls -->
       <div class="mobile-controls">
-        <button class="icon-btn" id="theme-toggle-mobile" title="Toggle Mode" onclick="toggleTheme()">🌙</button>
-        <button class="icon-btn" onclick="toggleMobileMenu()">☰</button>
+        <button class="icon-btn" id="theme-toggle-mobile" title="Toggle Mode">🌙</button>
+        <button class="icon-btn" id="mobile-menu-trigger">☰</button>
       </div>
     </div>
 
     <!-- Mobile Dropdown Menu -->
     <div class="mobile-menu-overlay" id="mobile-menu">
-      <button class="btn btn-outline" onclick="openAuthModal('login'); toggleMobileMenu();">Sign In</button>
-      <button class="btn btn-primary" onclick="openAuthModal('signup'); toggleMobileMenu();">Sign Up</button>
+      <button class="btn btn-outline" id="mobile-login-btn">Sign In</button>
+      <button class="btn btn-primary" id="mobile-signup-btn">Sign Up</button>
       <hr style="border-color: var(--border-color); margin: 0.25rem 0;">
-      <button class="dropdown-item" onclick="alert('Zaid Attar\'s Lost & Found helps campus students quickly report and recover misplaced items.'); toggleMobileMenu();">About Us</button>
-      <button class="dropdown-item" onclick="alert('Contact: support@zaidattar.edu'); toggleMobileMenu();">Contact Us</button>
-      <button class="dropdown-item" onclick="alert('Help Guide: Login to submit reports or claim items.'); toggleMobileMenu();">Help</button>
-      <button class="dropdown-item" style="color: var(--primary); font-weight: 600;" onclick="openAdminAuthModal(); toggleMobileMenu();">🔒 Admin Login</button>
+      <button class="dropdown-item" id="about-btn-mobile">About Us</button>
+      <button class="dropdown-item" id="contact-btn-mobile">Contact Us</button>
+      <button class="dropdown-item" id="help-btn-mobile">Help</button>
+      <button class="dropdown-item" id="admin-login-mobile" style="color: var(--primary); font-weight: 600;">🔒 Admin Login</button>
     </div>
   </header>
 
@@ -774,20 +787,649 @@
     <section class="hero">
       <h1>Lost Something? We'll Help You Find It.</h1>
       <p>Report misplaced items, explore found belongings, and utilize AI-powered matching across campus.</p>
-      <button class="btn btn-primary" onclick="handleActionRequireAuth('Report Item')">+ Report New Item</button>
+      <button class="btn btn-primary" id="report-item-hero-btn">+ Report New Item</button>
     </section>
 
     <!-- MAIN CONTENT CONTAINER -->
     <main class="main-container">
       <!-- SEARCH & FILTER TABS -->
       <div class="controls-card">
-        <input type="text" id="search-bar" class="search-input" placeholder="Search by item name, location, or keyword..." oninput="filterItems()">
+        <input type="text" id="search-bar" class="search-input" placeholder="Search by item name, location, or keyword...">
         
         <div class="filter-tabs">
-          <button class="tab-btn active" id="tab-all" onclick="setFilter('all')">All Items</button>
-          <button class="tab-btn" id="tab-lost" onclick="setFilter('lost')">Lost</button>
-          <button class="tab-btn" id="tab-found" onclick="setFilter('found')">Found</button>
+          <button class="tab-btn active" id="tab-all">All Items</button>
+          <button class="tab-btn" id="tab-lost">Lost</button>
+          <button class="tab-btn" id="tab-found">Found</button>
         </div>
       </div>
 
-      <!-- ITEM CARDS GRID -
+      <!-- ITEM CARDS GRID -->
+      <div class="items-grid" id="items-grid">
+        <!-- Items dynamically populated by JS -->
+      </div>
+    </main>
+  </div>
+
+  <!-- ADMIN DASHBOARD VIEW -->
+  <div id="admin-view" class="admin-dashboard">
+    <main class="main-container">
+      <div class="admin-header">
+        <div>
+          <h1 style="font-size: 1.8rem; font-weight: 800;">Admin Control Panel</h1>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Review, manage, and verify reported lost and found campus items.</p>
+        </div>
+        <button class="btn btn-outline" id="back-to-website-btn">← Back to Website</button>
+      </div>
+
+      <!-- SUMMARY CARDS -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-title">Total Reports</div>
+          <div class="stat-value" id="stat-total">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Lost Items</div>
+          <div class="stat-value" id="stat-lost">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Found Items</div>
+          <div class="stat-value" id="stat-found">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Pending Approvals</div>
+          <div class="stat-value" id="stat-pending" style="color: var(--status-pending-text);">0</div>
+        </div>
+      </div>
+
+      <!-- ITEMS MANAGEMENT TABLE -->
+      <div class="table-card">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Item Name</th>
+              <th>Type</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="admin-table-body">
+            <!-- Table rows populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    &copy; 2026 Zaid Attar's Lost & Found Portal. All Rights Reserved.
+  </footer>
+
+  <!-- AUTHENTICATION MODAL (STUDENT LOGIN / SIGNUP) -->
+  <div class="modal-overlay" id="auth-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-title">Sign In</h2>
+        <button class="close-btn" id="close-auth-modal">&times;</button>
+      </div>
+
+      <div class="auth-banner-msg" id="auth-banner-msg">
+        Please login to continue
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label">College Email</label>
+          <input type="email" class="form-input" placeholder="student@college.edu" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-input" placeholder="••••••••" required>
+        </div>
+        <div class="form-row-flex">
+          <label class="checkbox-group">
+            <input type="checkbox"> Remember me
+          </label>
+          <a href="#" style="color: var(--primary); text-decoration: none;" id="forgot-pass-btn">Forgot Password?</a>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+        <div class="auth-switch">
+          Don't have an account? <a href="#" id="switch-to-signup">Sign Up</a>
+        </div>
+      </form>
+
+      <!-- SIGNUP FORM -->
+      <form id="signup-form" style="display: none;">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="form-input" placeholder="John Doe" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">College Email</label>
+          <input type="email" class="form-input" placeholder="student@college.edu" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Roll Number</label>
+          <input type="text" class="form-input" placeholder="2026-CS-042" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-input" placeholder="••••••••" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Confirm Password</label>
+          <input type="password" class="form-input" placeholder="••••••••" required>
+        </div>
+        <div class="form-group checkbox-group" style="margin-bottom: 1.25rem;">
+          <input type="checkbox" required>
+          <label style="font-size: 0.85rem;">I agree to the Terms & Conditions</label>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+        <div class="auth-switch">
+          Already have an account? <a href="#" id="switch-to-login">Sign In</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- REPORT ITEM MODAL -->
+  <div class="modal-overlay" id="report-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title">Report Misplaced / Found Item</h2>
+        <button class="close-btn" id="close-report-modal">&times;</button>
+      </div>
+      <form id="report-item-form">
+        <div class="form-group">
+          <label class="form-label">Item Title</label>
+          <input type="text" id="report-title" class="form-input" placeholder="e.g. Leather Wallet, Blue Water Bottle" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category / Type</label>
+          <select id="report-type" class="form-select" required>
+            <option value="lost">Lost Item</option>
+            <option value="found">Found Item</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Campus Location</label>
+          <input type="text" id="report-location" class="form-input" placeholder="e.g. Library Hall, Block B Room 104" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description & Contact Info</label>
+          <textarea id="report-desc" class="form-textarea" placeholder="Add relevant details such as color, key features, and phone number." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Report</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADMIN AUTH MODAL -->
+  <div class="modal-overlay" id="admin-auth-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title">Admin Portal Login</h2>
+        <button class="close-btn" id="close-admin-modal">&times;</button>
+      </div>
+
+      <form id="admin-login-form">
+        <div class="form-group">
+          <label class="form-label">Admin Username</label>
+          <input type="text" id="admin-username" class="form-input" placeholder="admin" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Admin Password</label>
+          <input type="password" id="admin-password" class="form-input" placeholder="••••••••" required>
+        </div>
+        <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem;">Default Credentials: Username: <strong>admin</strong> | Password: <strong>admin123</strong></p>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Access Dashboard</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- APPLICATION LOGIC JS -->
+  <script>
+    // State Management
+    let isLoggedIn = false;
+    let isAdminLoggedIn = false;
+    let activeFilter = 'all';
+
+    // Sample Data Store
+    let sampleItems = [
+      {
+        id: 1,
+        title: "Blue Leather Wallet",
+        type: "lost",
+        location: "Library Reading Hall - 2nd Floor",
+        date: "Sept 10, 2026",
+        desc: "Contains college ID, driving license, and black debit card.",
+        score: "94% AI Match",
+        status: "Approved",
+        img: "https://images.unsplash.com/photo-1627123424574-724758594e93?w=500&auto=format&fit=crop&q=60"
+      },
+      {
+        id: 2,
+        title: "Apple AirPods Pro",
+        type: "found",
+        location: "Cafeteria Outdoor Seating",
+        date: "Sept 11, 2026",
+        desc: "Found in a clear protective case with a blue lanyard.",
+        score: "88% AI Match",
+        status: "Pending",
+        img: "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=500&auto=format&fit=crop&q=60"
+      },
+      {
+        id: 3,
+        title: "Scientific Calculator (Casio)",
+        type: "lost",
+        location: "Engineering Block - Room 302",
+        date: "Sept 09, 2026",
+        desc: "Casio fx-991EX model with a small blue sticker on the back.",
+        score: "91% AI Match",
+        status: "Approved",
+        img: "https://images.unsplash.com/photo-1611117775350-ac3950990985?w=500&auto=format&fit=crop&q=60"
+      },
+      {
+        id: 4,
+        title: "Black HP Backpack",
+        type: "found",
+        location: "Sports Complex Bench",
+        date: "Sept 12, 2026",
+        desc: "Contains notebooks and a water bottle. Claim with verification.",
+        score: "96% AI Match",
+        status: "Pending",
+        img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60"
+      }
+    ];
+
+    // Theme Engine Functions
+    function initTheme() {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark" || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+        document.documentElement.classList.add("dark");
+        updateThemeIcons("☀️");
+      } else {
+        document.documentElement.classList.remove("dark");
+        updateThemeIcons("🌙");
+      }
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+      updateThemeIcons(isDark ? "☀️" : "🌙");
+    }
+
+    function updateThemeIcons(iconText) {
+      document.getElementById("theme-toggle-desktop").innerText = iconText;
+      document.getElementById("theme-toggle-mobile").innerText = iconText;
+    }
+
+    // View Switching Logic
+    function switchView(viewName) {
+      const studentView = document.getElementById("student-view");
+      const adminView = document.getElementById("admin-view");
+
+      if (viewName === "admin") {
+        studentView.style.display = "none";
+        adminView.style.display = "block";
+        renderAdminDashboard();
+      } else {
+        adminView.style.display = "none";
+        studentView.style.display = "block";
+      }
+    }
+
+    // Filter Logic
+    function setFilter(filterType) {
+      activeFilter = filterType;
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(`tab-${filterType}`).classList.add('active');
+      filterItems();
+    }
+
+    function filterItems() {
+      const query = document.getElementById('search-bar').value.toLowerCase().trim();
+      const filtered = sampleItems.filter(item => {
+        const matchesFilter = (activeFilter === 'all') || (item.type === activeFilter);
+        const matchesSearch = item.title.toLowerCase().includes(query) || 
+                              item.location.toLowerCase().includes(query) || 
+                              item.desc.toLowerCase().includes(query);
+        return matchesFilter && matchesSearch;
+      });
+      renderItems(filtered);
+    }
+
+    // Render Student View Grid
+    function renderItems(itemsToRender = sampleItems) {
+      const grid = document.getElementById("items-grid");
+      grid.innerHTML = "";
+
+      if (itemsToRender.length === 0) {
+        grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">No items found matching criteria.</p>`;
+        return;
+      }
+
+      itemsToRender.forEach(item => {
+        const isLost = item.type === "lost";
+        const actionText = isLost ? "I Found This" : "This is Mine";
+        const card = document.createElement("div");
+        card.className = "item-card";
+        card.innerHTML = `
+          <img src="${item.img}" alt="${item.title}" class="card-img">
+          <div class="card-body">
+            <div class="badge-container">
+              <span class="badge ${isLost ? 'badge-lost' : 'badge-found'}">${item.type}</span>
+              <span class="ai-score">⚡ ${item.score}</span>
+            </div>
+            <h3 class="card-title">${item.title}</h3>
+            <p class="card-desc">${item.desc}</p>
+            <div class="card-meta">
+              <span>📍 <strong>Location:</strong> ${item.location}</span>
+              <span>📅 <strong>Date:</strong> ${item.date}</span>
+            </div>
+            <button class="btn btn-outline claim-btn" style="width: 100%; margin-top: auto;">
+              ${actionText}
+            </button>
+          </div>
+        `;
+
+        card.querySelector('.claim-btn').addEventListener('click', () => {
+          handleActionRequireAuth(actionText);
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    // Render Admin Control Dashboard
+    function renderAdminDashboard() {
+      const total = sampleItems.length;
+      const lostCount = sampleItems.filter(i => i.type === 'lost').length;
+      const foundCount = sampleItems.filter(i => i.type === 'found').length;
+      const pendingCount = sampleItems.filter(i => i.status === 'Pending').length;
+
+      document.getElementById("stat-total").innerText = total;
+      document.getElementById("stat-lost").innerText = lostCount;
+      document.getElementById("stat-found").innerText = foundCount;
+      document.getElementById("stat-pending").innerText = pendingCount;
+
+      const tbody = document.getElementById("admin-table-body");
+      tbody.innerHTML = "";
+
+      sampleItems.forEach(item => {
+        const tr = document.createElement("tr");
+        const statusClass = item.status === 'Approved' ? 'status-approved' : 
+                            item.status === 'Rejected' ? 'status-rejected' : 'status-pending';
+
+        tr.innerHTML = `
+          <td style="font-weight: 600;">${item.title}</td>
+          <td><span class="badge ${item.type === 'lost' ? 'badge-lost' : 'badge-found'}">${item.type}</span></td>
+          <td>${item.location}</td>
+          <td><span class="status-badge ${statusClass}">${item.status}</span></td>
+          <td class="action-cell">
+            <button class="btn btn-success approve-btn">Approve</button>
+            <button class="btn btn-danger reject-btn">Reject</button>
+          </td>
+        `;
+
+        tr.querySelector('.approve-btn').addEventListener('click', () => updateItemStatus(item.id, 'Approved'));
+        tr.querySelector('.reject-btn').addEventListener('click', () => updateItemStatus(item.id, 'Rejected'));
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Update Status Handler
+    function updateItemStatus(itemId, newStatus) {
+      const item = sampleItems.find(i => i.id === itemId);
+      if (item) {
+        item.status = newStatus;
+        renderAdminDashboard();
+        renderItems();
+      }
+    }
+
+    // Auth Protection Handler
+    function handleActionRequireAuth(actionName) {
+      if (!isLoggedIn) {
+        openAuthModal('login', true);
+      } else {
+        if (actionName === 'Report Item') {
+          openReportModal();
+        } else {
+          alert(`Action Triggered: ${actionName}. Request sent successfully!`);
+        }
+      }
+    }
+
+    // Modal Control Functions
+    function openAuthModal(mode = 'login', showWarning = false) {
+      const modal = document.getElementById("auth-modal");
+      const banner = document.getElementById("auth-banner-msg");
+      banner.style.display = showWarning ? "block" : "none";
+      switchAuthTab(mode);
+      modal.classList.add("active");
+    }
+
+    function closeAuthModal() {
+      document.getElementById("auth-modal").classList.remove("active");
+    }
+
+    function openReportModal() {
+      document.getElementById("report-modal").classList.add("active");
+    }
+
+    function closeReportModal() {
+      document.getElementById("report-modal").classList.remove("active");
+    }
+
+    function openAdminAuthModal() {
+      document.getElementById("admin-auth-modal").classList.add("active");
+    }
+
+    function closeAdminAuthModal() {
+      document.getElementById("admin-auth-modal").classList.remove("active");
+    }
+
+    function switchAuthTab(mode) {
+      const title = document.getElementById("modal-title");
+      const loginForm = document.getElementById("login-form");
+      const signupForm = document.getElementById("signup-form");
+
+      if (mode === 'signup') {
+        title.innerText = "Create Account";
+        loginForm.style.display = "none";
+        signupForm.style.display = "block";
+      } else {
+        title.innerText = "Sign In";
+        loginForm.style.display = "block";
+        signupForm.style.display = "none";
+      }
+    }
+
+    // Auth Simulation
+    function simulateAuth() {
+      isLoggedIn = true;
+      closeAuthModal();
+      alert("Successfully authenticated!");
+      
+      const desktopLogin = document.getElementById("btn-login-desktop");
+      const desktopSignup = document.getElementById("btn-signup-desktop");
+      if (desktopLogin) desktopLogin.style.display = "none";
+      if (desktopSignup) {
+        desktopSignup.innerText = "My Profile";
+        desktopSignup.onclick = () => alert("Logged in as Campus Student");
+      }
+    }
+
+    function handleAdminLogin() {
+      const user = document.getElementById("admin-username").value.trim();
+      const pass = document.getElementById("admin-password").value.trim();
+
+      if (user === "admin" && pass === "admin123") {
+        isAdminLoggedIn = true;
+        closeAdminAuthModal();
+        switchView("admin");
+      } else {
+        alert("Invalid admin credentials. Please try again.");
+      }
+    }
+
+    // Attach All Event Listeners Cleanly After Load
+    document.addEventListener("DOMContentLoaded", () => {
+      initTheme();
+      renderItems();
+      renderAdminDashboard();
+
+      // Brand Logo click -> Back to Student View
+      document.getElementById("brand-logo-btn").addEventListener("click", () => switchView('student'));
+
+      // Theme Toggles
+      document.getElementById("theme-toggle-desktop").addEventListener("click", toggleTheme);
+      document.getElementById("theme-toggle-mobile").addEventListener("click", toggleTheme);
+
+      // Desktop Auth Buttons
+      document.getElementById("btn-login-desktop").addEventListener("click", () => openAuthModal('login'));
+      document.getElementById("btn-signup-desktop").addEventListener("click", () => openAuthModal('signup'));
+
+      // Dropdown Toggle
+      const desktopTrigger = document.getElementById("desktop-menu-trigger");
+      const desktopDropdown = document.getElementById("desktop-dropdown");
+      desktopTrigger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        desktopDropdown.classList.toggle("show");
+      });
+
+      // Close dropdowns on click outside
+      window.addEventListener("click", (e) => {
+        if (!e.target.matches('#desktop-menu-trigger')) {
+          desktopDropdown.classList.remove('show');
+        }
+      });
+
+      // Desktop Menu Action Items
+      document.getElementById("about-btn-desktop").addEventListener("click", () => {
+        alert("Zaid Attar's Lost & Found helps campus students quickly report and recover misplaced items.");
+      });
+      document.getElementById("contact-btn-desktop").addEventListener("click", () => {
+        alert("Contact: support@zaidattar.edu\nPhone: +91 98765 43210");
+      });
+      document.getElementById("help-btn-desktop").addEventListener("click", () => {
+        alert("Help Guide:\n1. Search or filter lost/found items.\n2. Login to post missing items.\n3. Verify ownership when claiming.");
+      });
+      document.getElementById("admin-login-desktop").addEventListener("click", openAdminAuthModal);
+
+      // Mobile Menu Trigger & Options
+      const mobileTrigger = document.getElementById("mobile-menu-trigger");
+      const mobileMenu = document.getElementById("mobile-menu");
+      mobileTrigger.addEventListener("click", () => {
+        mobileMenu.classList.toggle("active");
+      });
+
+      document.getElementById("mobile-login-btn").addEventListener("click", () => {
+        openAuthModal('login');
+        mobileMenu.classList.remove("active");
+      });
+      document.getElementById("mobile-signup-btn").addEventListener("click", () => {
+        openAuthModal('signup');
+        mobileMenu.classList.remove("active");
+      });
+      document.getElementById("about-btn-mobile").addEventListener("click", () => {
+        alert("Zaid Attar's Lost & Found helps campus students quickly report and recover misplaced items.");
+        mobileMenu.classList.remove("active");
+      });
+      document.getElementById("contact-btn-mobile").addEventListener("click", () => {
+        alert("Contact: support@zaidattar.edu");
+        mobileMenu.classList.remove("active");
+      });
+      document.getElementById("help-btn-mobile").addEventListener("click", () => {
+        alert("Help Guide: Sign in to post reports or claim items.");
+        mobileMenu.classList.remove("active");
+      });
+      document.getElementById("admin-login-mobile").addEventListener("click", () => {
+        openAdminAuthModal();
+        mobileMenu.classList.remove("active");
+      });
+
+      // Hero Action Button
+      document.getElementById("report-item-hero-btn").addEventListener("click", () => {
+        handleActionRequireAuth('Report Item');
+      });
+
+      // Filter Tabs & Search Bar
+      document.getElementById("search-bar").addEventListener("input", filterItems);
+      document.getElementById("tab-all").addEventListener("click", () => setFilter('all'));
+      document.getElementById("tab-lost").addEventListener("click", () => setFilter('lost'));
+      document.getElementById("tab-found").addEventListener("click", () => setFilter('found'));
+
+      // Admin Return Button
+      document.getElementById("back-to-website-btn").addEventListener("click", () => switchView('student'));
+
+      // Auth Modal Controls & Forms
+      document.getElementById("close-auth-modal").addEventListener("click", closeAuthModal);
+      document.getElementById("switch-to-signup").addEventListener("click", (e) => {
+        e.preventDefault();
+        switchAuthTab('signup');
+      });
+      document.getElementById("switch-to-login").addEventListener("click", (e) => {
+        e.preventDefault();
+        switchAuthTab('login');
+      });
+      document.getElementById("forgot-pass-btn").addEventListener("click", (e) => {
+        e.preventDefault();
+        alert("Password reset instructions have been sent to your college email.");
+      });
+
+      document.getElementById("login-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        simulateAuth();
+      });
+      document.getElementById("signup-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        simulateAuth();
+      });
+
+      // Report Modal Controls & Form Submission
+      document.getElementById("close-report-modal").addEventListener("click", closeReportModal);
+      document.getElementById("report-item-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const title = document.getElementById("report-title").value.trim();
+        const type = document.getElementById("report-type").value;
+        const location = document.getElementById("report-location").value.trim();
+        const desc = document.getElementById("report-desc").value.trim();
+
+        const newItem = {
+          id: Date.now(),
+          title: title,
+          type: type,
+          location: location,
+          date: "Just now",
+          desc: desc,
+          score: "99% AI Match",
+          status: "Pending",
+          img: type === 'lost' 
+            ? "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60"
+            : "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=500&auto=format&fit=crop&q=60"
+        };
+
+        sampleItems.unshift(newItem);
+        closeReportModal();
+        document.getElementById("report-item-form").reset();
+        renderItems();
+        renderAdminDashboard();
+        alert("Your item report has been submitted for approval!");
+      });
+
+      // Admin Auth Modal Controls & Form
+      document.getElementById("close-admin-modal").addEventListener("click", closeAdminAuthModal);
+      document.getElementById("admin-login-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        handleAdminLogin();
+      });
+    });
+  </script>
+</body>
+</html>
