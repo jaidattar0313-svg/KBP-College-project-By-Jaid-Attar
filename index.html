@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zaid Attar's Lost & Found</title>
+
+  <!-- PWA Web App Manifest & Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#6d28d9">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Zaid Attar's Lost & Found">
+  <link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=192&h=192&q=80">
   
   <!-- Inter Google Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -260,7 +268,7 @@
       background-color: var(--bg-surface);
       border: 1px solid var(--border-color);
       border-radius: 8px;
-      width: 170px;
+      width: 180px;
       box-shadow: var(--shadow-lg);
       display: none;
       flex-direction: column;
@@ -925,6 +933,7 @@
 
       <!-- Desktop Nav -->
       <div class="desktop-nav">
+        <button class="btn btn-primary" id="btn-install-desktop" style="display: none;">📲 Install App</button>
         <button class="btn btn-outline" id="btn-login-desktop">Sign In</button>
         <button class="btn btn-primary" id="btn-signup-desktop">Sign Up</button>
         <button class="icon-btn" id="theme-toggle-desktop" title="Toggle Mode">🌙</button>
@@ -935,6 +944,7 @@
             <button class="dropdown-item" id="about-btn-desktop">About Us</button>
             <button class="dropdown-item" id="contact-btn-desktop">Contact Us</button>
             <button class="dropdown-item" id="help-btn-desktop">Help</button>
+            <button class="dropdown-item" id="install-btn-dropdown" style="display: none; color: var(--primary); font-weight: 600;">📲 Install App</button>
             <hr style="border-color: var(--border-color); margin: 0.25rem 0;">
             <button class="dropdown-item" id="admin-login-desktop" style="color: var(--primary); font-weight: 600;">🔒 Admin Login</button>
           </div>
@@ -950,6 +960,7 @@
 
     <!-- Mobile Dropdown Menu -->
     <div class="mobile-menu-overlay" id="mobile-menu">
+      <button class="btn btn-primary" id="btn-install-mobile" style="display: none;">📲 Install App</button>
       <button class="btn btn-outline" id="mobile-login-btn">Sign In</button>
       <button class="btn btn-primary" id="mobile-signup-btn">Sign Up</button>
       <hr style="border-color: var(--border-color); margin: 0.25rem 0;">
@@ -971,7 +982,7 @@
 
     <!-- MAIN CONTENT CONTAINER -->
     <main class="main-container">
-      <!-- SEARCH & FILTER TABS -->
+      <!-- SEARCH & FILTER CONTROLS -->
       <div class="controls-card">
         <input type="text" id="search-bar" class="search-input" placeholder="Search by item name, location, or keyword...">
         
@@ -1666,6 +1677,51 @@
       studentView.style.display = 'block';
       setTab('ALL', tabAll);
     });
+
+    /* SERVICE WORKER & PWA INSTALLATION PROMPT */
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+
+      // Display Install Buttons across desktop and mobile menus
+      const desktopInstallBtn = document.getElementById('btn-install-desktop');
+      const mobileInstallBtn = document.getElementById('btn-install-mobile');
+      const dropdownInstallBtn = document.getElementById('install-btn-dropdown');
+
+      if (desktopInstallBtn) desktopInstallBtn.style.display = 'inline-flex';
+      if (mobileInstallBtn) mobileInstallBtn.style.display = 'block';
+      if (dropdownInstallBtn) dropdownInstallBtn.style.display = 'block';
+    });
+
+    async function triggerPWAInstall() {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        showToast('App installed successfully!', 'success');
+      }
+      deferredPrompt = null;
+
+      // Hide Install Buttons after prompt action
+      document.getElementById('btn-install-desktop').style.display = 'none';
+      document.getElementById('btn-install-mobile').style.display = 'none';
+      document.getElementById('install-btn-dropdown').style.display = 'none';
+    }
+
+    document.getElementById('btn-install-desktop').addEventListener('click', triggerPWAInstall);
+    document.getElementById('btn-install-mobile').addEventListener('click', triggerPWAInstall);
+    document.getElementById('install-btn-dropdown').addEventListener('click', triggerPWAInstall);
+
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(reg => console.log('Service Worker registered successfully:', reg.scope))
+          .catch(err => console.error('Service Worker registration failed:', err));
+      });
+    }
 
     /* INITIAL LOAD */
     updateUserUI();
